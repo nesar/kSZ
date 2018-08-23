@@ -29,7 +29,7 @@ test_split = 0.2
 num_para = 1
 image_size = 256 #1024
 
-learning_rate = 0.00001
+learning_rate = 0.0001
 decay_rate = 0.1
 
 
