@@ -23,13 +23,13 @@ K.set_image_dim_ordering('tf')
 
 batch_size = 2
 num_para = 1
-epochs = 10
+epochs = 100
 filenum = 16
 test_split = 0.2
 num_para = 1
 image_size = 256 #1024
 
-learning_rate = 0.0001
+learning_rate = 0.00001
 decay_rate = 0.1
 
 
@@ -170,7 +170,7 @@ model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Flatten())
 model.add(Dense(512))
 model.add(Activation('relu'))
-# model.add(Dropout(0.5))
+model.add(Dropout(0.25))
 model.add(Dense(num_para))
 model.add(Activation('linear'))
 
