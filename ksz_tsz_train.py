@@ -54,16 +54,16 @@ f1.close()
 
 for fi in range (filenum):
     # fileIn = "mymap_box0_s14_new_"+str(fi)+".014.a.z.fits"
-    fileIn = "mymap_box0_s14_is256_new_"+str(fi)+".014.a.z.fits"
+    kfileIn = "mymap_box0_s14_is256_new_"+str(fi)+".014.a.z.fits"
+    tfileIn = "mymap_box0_s14_is256_tSZ_" + str(fi) + ".014.a.z.fits"
 
-
-    f0=fits.open(input_dir + fileIn)
+    f0=fits.open(input_dir + kfileIn)
     ksz_matrix[fi] = f0[1].data
     f0.close()
 
-    #f0=fits.open("Box0/mymap_box0_s14_tSZ_"+str(fi)+".014.a.z.fits")
-    #tsz_matrix[fi] = f0[1].data
-    #f0.close()
+    f0=fits.open(input_dir + tfileIn)
+    tsz_matrix[fi] = f0[1].data
+    f0.close()
 
 
 ## CROPPING IMAGE to 128x128
@@ -263,7 +263,7 @@ if plotLoss:
 
     plt.show()
 
-# ----------- Plot prediction vs truth ----------- 
+# ----------- Plot prediction vs truth -----------
 ScatterPredReal = True
 if ScatterPredReal:
     diff = np.abs(y_pred - y_test)
