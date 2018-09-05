@@ -25,7 +25,7 @@ batch_size = 2
 num_para = 1
 epochs = 10
 filenum = 16
-test_split = 0.2
+test_split = 0.5
 image_size = 256 #1024
 
 learning_rate = 0.0001
