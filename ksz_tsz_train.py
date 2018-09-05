@@ -40,8 +40,8 @@ model_name = 'keras_cifar10_trained_model.h5'
 # The data, split between train and test sets:
 
 
-ksz_matrix = np.zeros((filenum, image_size, image_size))
-tsz_matrix = np.zeros((filenum, image_size, image_size))
+# ksz_matrix = np.zeros((filenum, image_size, image_size))
+# tsz_matrix = np.zeros((filenum, image_size, image_size))
 velocity_array = np.zeros((filenum))
 
 f1 = open(input_dir + "wmap.014.cluster.sim.dat")
@@ -76,16 +76,16 @@ num_train = int((1-test_split)*filenum)
 np.random.seed(1234)
 shuffleOrder = np.arange(filenum)
 np.random.shuffle(shuffleOrder)
-ksz_matrix = ksz_matrix[shuffleOrder]
-tsz_matrix = tsz_matrix[shuffleOrder]
+kt_matrix = kt_matrix[shuffleOrder]
+# tsz_matrix = tsz_matrix[shuffleOrder]
 velocity_array = velocity_array[shuffleOrder]
 #allPara = np.dstack((ksz_matrix, tsz_matrix))[0]
 #print (allPara.shape)
 
-x_train = ksz_matrix[0:num_train]
+x_train = kt_matrix[0:num_train]
 y_train = velocity_array[0:num_train]
 
-x_test = ksz_matrix[num_train:filenum]
+x_test = kt_matrix[num_train:filenum]
 y_test = velocity_array[num_train:filenum]
 
 
@@ -94,8 +94,8 @@ y_test = velocity_array[num_train:filenum]
 # x_test = x_test.astype('float32')
 
 
-x_train -= np.min(ksz_matrix)
-x_test -= np.min(ksz_matrix)
+x_train -= np.min(kt_matrix)
+x_test -= np.min(kt_matrix)
 
 x_normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
 
