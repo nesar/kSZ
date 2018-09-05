@@ -23,7 +23,7 @@ K.set_image_dim_ordering('tf')
 
 batch_size = 2
 num_para = 1
-epochs = 10
+epochs = 100
 filenum = 16
 test_split = 0.5
 image_size = 256 #1024
