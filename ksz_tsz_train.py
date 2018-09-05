@@ -77,7 +77,7 @@ np.random.seed(1234)
 shuffleOrder = np.arange(filenum)
 np.random.shuffle(shuffleOrder)
 ksz_matrix = ksz_matrix[shuffleOrder]
-#tsz_matrix = tsz_matrix[shuffleOrder]
+tsz_matrix = tsz_matrix[shuffleOrder]
 velocity_array = velocity_array[shuffleOrder]
 #allPara = np.dstack((ksz_matrix, tsz_matrix))[0]
 #print (allPara.shape)
