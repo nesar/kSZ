@@ -26,7 +26,6 @@ num_para = 1
 epochs = 100
 filenum = 16
 test_split = 0.2
-num_para = 1
 image_size = 256 #1024
 
 learning_rate = 0.0001
@@ -35,7 +34,7 @@ decay_rate = 0.1
 
 input_dir = '../kSZ/Data/Box0/lowres/'
 save_dir = input_dir + 'Models'
-model_name = 'keras_cifar10_trained_model.h5'
+model_name = 'ksz_trained_model.h5'
 
 # The data, split between train and test sets:
 
