@@ -42,6 +42,9 @@ model_name = 'keras_cifar10_trained_model.h5'
 
 # ksz_matrix = np.zeros((filenum, image_size, image_size))
 # tsz_matrix = np.zeros((filenum, image_size, image_size))
+
+kt_matrix = np.zeros((filenum, image_size, image_size, 2))
+
 velocity_array = np.zeros((filenum))
 
 f1 = open(input_dir + "wmap.014.cluster.sim.dat")
@@ -58,11 +61,11 @@ for fi in range (filenum):
     tfileIn = "mymap_box0_s14_is256_tSZ_" + str(fi) + ".014.a.z.fits"
 
     f0=fits.open(input_dir + kfileIn)
-    ksz_matrix[fi] = f0[1].data
+    kt_matrix[fi, :, :, 0] = f0[1].data
     f0.close()
 
     f0=fits.open(input_dir + tfileIn)
-    tsz_matrix[fi] = f0[1].data
+    kt_matrix[fi, :, :, 1] = f0[1].data
     f0.close()
 
 
@@ -121,8 +124,8 @@ y_test /= y_normFactor
 # x_train = np.rollaxis(x_train, 3, 2)
 
 
-x_train = x_train.reshape(x_train.shape[0], image_size, image_size, 1)
-x_test = x_test.reshape(x_test.shape[0], image_size, image_size, 1)
+x_train = x_train.reshape(x_train.shape[0], image_size, image_size, 2)
+x_test = x_test.reshape(x_test.shape[0], image_size, image_size, 2)
 
 
 print('x_train shape:', x_train.shape)
@@ -132,7 +135,7 @@ print(x_test.shape[0], 'test samples')
 
 model = Sequential()
 
-model.add(Conv2D(32, (3, 3), border_mode='same', input_shape=(image_size, image_size, 1) ))
+model.add(Conv2D(32, (3, 3), border_mode='same', input_shape=(image_size, image_size, 2) ))
 
 #
 model.add(Activation('relu'))
