@@ -21,9 +21,9 @@ if K.backend() != 'tensorflow':
 K.set_image_dim_ordering('tf')
 
 
-batch_size = 16
+batch_size = 2
 num_para = 1
-epochs = 100
+epochs = 50
 filenum = 1000
 test_split = 0.2
 image_size = 256 #1024
@@ -43,7 +43,7 @@ ksz_matrix = np.zeros((filenum, image_size, image_size))
 tsz_matrix = np.zeros((filenum, image_size, image_size))
 velocity_array = np.zeros((filenum))
 
-f1 = open(input_dir + "wmap.014.cluster.sim.dat")
+f1 = open("wmap.014.cluster.sim.dat")
 lines2 = f1.readlines()
 data = [line.split() for line in lines2]
 data = data[1:]
@@ -53,10 +53,10 @@ f1.close()
 
 for fi in range (filenum):
     # fileIn = "mymap_box0_s14_new_"+str(fi)+".014.a.z.fits"
-    fileIn = "mymap_box0_s14_is256_new_"+str(fi)+".014.a.z.fits"
+    fileIn = "Box0/mymap_box0_s14_is256_new_"+str(fi)+".014.a.z.fits"
 
 
-    f0=fits.open(input_dir + fileIn)
+    f0=fits.open(fileIn)
     ksz_matrix[fi] = f0[1].data
     f0.close()
 
@@ -76,7 +76,7 @@ np.random.seed(1234)
 shuffleOrder = np.arange(filenum)
 np.random.shuffle(shuffleOrder)
 ksz_matrix = ksz_matrix[shuffleOrder]
-ksz_matrix = np.arcsinh(1e6*ksz_matrix)
+ksz_matrix = np.arcsinh(1000000*ksz_matrix)
 #tsz_matrix = tsz_matrix[shuffleOrder]
 velocity_array = velocity_array[shuffleOrder]
 #allPara = np.dstack((ksz_matrix, tsz_matrix))[0]
@@ -94,27 +94,27 @@ y_test = velocity_array[num_train:filenum]
 # x_test = x_test.astype('float32')
 
 
-x_train -= np.min(ksz_matrix)
-x_test -= np.min(ksz_matrix)
-
-x_normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
-
-
-x_train /= x_normFactor
-x_test /= x_normFactor
-
-x_train = np.expand_dims(x_train, axis=1)
-y_train = np.expand_dims(y_train, axis=1)
-
-
-y_rescaleFactor = np.min(velocity_array)
-y_train -= y_rescaleFactor
-y_test -= y_rescaleFactor
-
-y_normFactor = np.max( [np.max(y_train), np.max(y_test ) ])
-
-y_train /= y_normFactor
-y_test /= y_normFactor
+#x_train -= np.min(ksz_matrix)
+#x_test -= np.min(ksz_matrix)
+#
+#normFactor = np.max( [np.max(x_train), np.max(x_test ) ])
+#
+#
+#x_train /= normFactor
+#x_test /= normFactor
+#
+#x_train = np.expand_dims(x_train, axis=1)
+#y_train = np.expand_dims(y_train, axis=1)
+#
+#
+#
+#y_train -= np.min(velocity_array)
+#y_test -= np.min(velocity_array)
+#
+#y_normFactor = np.max( [np.max(y_train), np.max(y_test ) ])
+#
+#y_train /= y_normFactor
+#y_test /= y_normFactor
 
 # x_train = np.rollaxis(x_train, 2, 0)
 # x_train = np.rollaxis(x_train, 1, 0)
@@ -128,7 +128,6 @@ x_test = x_test.reshape(x_test.shape[0], image_size, image_size, 1)
 print('x_train shape:', x_train.shape)
 print(x_train.shape[0], 'train samples')
 print(x_test.shape[0], 'test samples')
-
 
 
 model = Sequential()
@@ -169,7 +168,7 @@ model.add(MaxPooling2D(pool_size=(2, 2)))
 # #
 
 model.add(Flatten())
-model.add(Dense(1024))
+model.add(Dense(10000))
 model.add(Activation('relu'))
 model.add(Dense(512))
 model.add(Activation('relu'))
@@ -277,19 +276,14 @@ if plotLoss:
 # ----------- Plot prediction vs truth ----------- 
 ScatterPredReal = True
 if ScatterPredReal:
-
-    import matplotlib.pylab as plt
-
     diff = np.abs(y_pred - y_test)
 
     print('Difference min, max, mean, std, median')
     print(np.min(diff), np.max(diff), np.mean(diff), np.std(diff), np.median(diff))
 
     fig, ax = plt.subplots(1, 1, figsize=(6, 6))
-    # fig.subplots_adjust(left=0.2, bottom=None, right=None, top=None, wspace=None, hspace=0.3)
-    ax.plot(y_pred, y_test, 'kx', alpha = 0.7)
-    ax.plot([0,1], [0,1], 'r', alpha = 0.5)
-    ax.set_title('rescaled velocity')
+    fig.subplots_adjust(left=0.2, bottom=None, right=None, top=None, wspace=None, hspace=0.3)
+    ax.scatter(y_pred, y_test)
     ax.set_ylabel('y_test')
     ax.set_xlabel('y_pred')
 
