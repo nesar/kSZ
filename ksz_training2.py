@@ -28,7 +28,7 @@ filenum = 1000
 test_split = 0.2
 image_size = 256 #1024
 
-learning_rate = 0.0001
+learning_rate = 1e-3
 decay_rate = 0.1
 
 
@@ -169,7 +169,7 @@ model.add(MaxPooling2D(pool_size=(2, 2)))
 # #
 
 model.add(Flatten())
-model.add(Dense(1024))
+model.add(Dense(2048))
 model.add(Activation('relu'))
 model.add(Dense(512))
 model.add(Activation('relu'))
@@ -199,8 +199,9 @@ print(model.summary())
 ModelFit = model.fit(x_train, y_train,
           batch_size=batch_size,
           epochs=epochs,
-          validation_data=(x_test, y_test),
-          shuffle=True)
+          validation_split= 0.1,
+          shuffle=True,
+          verbose=2)
 
 
 # Save model and weights
