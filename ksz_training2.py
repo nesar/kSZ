@@ -28,7 +28,7 @@ filenum = 1000
 test_split = 0.2
 image_size = 256 #1024
 
-learning_rate = 1e-3
+learning_rate = 1e-4
 decay_rate = 0.1
 
 
@@ -326,3 +326,5 @@ if ScatterPredReal:
 
 
 
+from keras.utils import plot_model
+plot_model(model, to_file='model.png', show_shapes = True)
