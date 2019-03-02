@@ -1,14 +1,7 @@
 '''
 Based on:
 
-https://gist.github.com/neilslater/40201a6c63b4462e6c6e458bab60d0b4
-
-
 Remaining:  1) Get std dev on predictions
-            2) Deeper, wider networks ? - right now, loss function seems converging - but testing is bad
-            3) Use sklearn, pipeline etc
-            4) Use callbacks
-            5) Plot conditional prob distribution kinda thing
             6) What metric to use to check accuracy of all testimages?
 
 '''
@@ -344,9 +337,7 @@ def predict_with_uncertainty(f, x, no_classes, n_iter=100):
     return prediction, uncertainty
 
 
-#
-#
-#
+########  K FOLD CROSS-VALIDATION ##########
 #
 # from keras.wrappers.scikit_learn import KerasClassifier
 # from keras.utils import np_utils
